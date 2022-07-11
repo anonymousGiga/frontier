@@ -534,6 +534,11 @@ impl<T: Config> Pallet<T> {
 		let base_fee = T::FeeCalculator::min_gas_price();
 		let mut priority = 0;
 
+		log::info!("++++++++++++++++++++++++++++++++++, price = {:?}, fee_per_gas = {:?}, priority = {:?}", 
+			transaction_data.gas_price, 
+			transaction_data.max_fee_per_gas, 
+			transaction_data.max_priority_fee_per_gas);
+
 		let max_fee_per_gas = match (
 			transaction_data.gas_price,
 			transaction_data.max_fee_per_gas,
@@ -563,7 +568,7 @@ impl<T: Config> Pallet<T> {
 		};
 
 		if max_fee_per_gas < base_fee {
-				log::info!("++++++++++++++++++++++++++++++++++, max_fee = {:?}, base_fee = {:?}", max_fee_per_gas, base_fee);
+				log::info!("++++++++++++++++++++++++++++++++++2 , max_fee = {:?}, base_fee = {:?}", max_fee_per_gas, base_fee);
 			return Err(InvalidTransaction::Payment.into());
 		}
 
