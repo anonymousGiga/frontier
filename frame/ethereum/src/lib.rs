@@ -563,7 +563,7 @@ impl<T: Config> Pallet<T> {
 		};
 
 		if max_fee_per_gas < base_fee {
-				log::info!("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 2");
+				log::info!("++++++++++++++++++++++++++++++++++, max_fee = {:?}, base_fee = {:?}", max_fee_per_gas, base_fee);
 			return Err(InvalidTransaction::Payment.into());
 		}
 
