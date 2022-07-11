@@ -556,10 +556,14 @@ impl<T: Config> Pallet<T> {
 					.unique_saturated_into();
 				max_fee_per_gas
 			},
-			_ => return Err(InvalidTransaction::Payment.into()),
+			_ => {
+				log::info!("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 1");
+				return Err(InvalidTransaction::Payment.into())
+			},
 		};
 
 		if max_fee_per_gas < base_fee {
+				log::info!("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 2");
 			return Err(InvalidTransaction::Payment.into());
 		}
 
@@ -567,6 +571,7 @@ impl<T: Config> Pallet<T> {
 		let account_data = pallet_evm::Pallet::<T>::account_basic(&origin);
 		let total_payment = transaction_data.value.saturating_add(fee);
 		if account_data.balance < total_payment {
+				log::info!("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 3");
 			return Err(InvalidTransaction::Payment.into());
 		}
 
