@@ -63,6 +63,10 @@ impl Formatter for Geth {
 					VError::GasLimitTooHigh => "exceeds block gas limit".into(),
 					VError::InsufficientFundsForTransfer => {
 						"insufficient funds for transfer".into()
+					},
+					VError::MaxFeePerGasTooLow => "max fee per gas less than block base fee".into(),
+					VError::MaxPriorityFeePerGasTooHigh => {
+						"max priority fee per gas higher than max fee per gas".into()
 					}
 				},
 				_ => "unknown error".into(),

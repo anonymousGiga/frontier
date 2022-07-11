@@ -559,6 +559,13 @@ impl<T: Config> Pallet<T> {
 			},
 			// EIP-1559 transaction with tip.
 			(None, Some(max_fee_per_gas), Some(max_priority_fee_per_gas)) => {
+				if max_priority_fee_per_gas > max_fee_per_gas {
+					return Err(InvalidTransaction::Custom(
+						TransactionValidationError::MaxPriorityFeePerGasTooHigh as u8,
+					)
+					.into());
+				}
+
 				priority = max_fee_per_gas
 					.saturating_sub(base_fee)
 					.min(max_priority_fee_per_gas)
@@ -574,7 +581,11 @@ impl<T: Config> Pallet<T> {
 
 		if max_fee_per_gas < base_fee {
 				log::info!("++++++++++++++++++++++++++++++++++2 , max_fee = {:?}, base_fee = {:?}", max_fee_per_gas, base_fee);
-			return Err(InvalidTransaction::Payment.into());
+			// return Err(InvalidTransaction::Payment.into());
+			return Err(InvalidTransaction::Custom(
+				TransactionValidationError::MaxFeePerGasTooLow as u8,
+			)
+			.into());
 		}
 
 		let fee = max_fee_per_gas.saturating_mul(gas_limit);
@@ -974,4 +985,6 @@ pub enum TransactionValidationError {
 	GasLimitTooLow,
 	GasLimitTooHigh,
 	InsufficientFundsForTransfer,
+	MaxFeePerGasTooLow,
+	MaxPriorityFeePerGasTooHigh,
 }
