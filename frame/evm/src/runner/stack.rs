@@ -65,6 +65,10 @@ impl<T: Config> Runner<T> {
 			>,
 		) -> (ExitReason, R),
 	{
+		log::warn!(
+			target: "evm",
+			"In evm +++++++++++++++++++++++++++++++++++++++++++++++++++++ ",
+		);
 		let base_fee = T::FeeCalculator::min_gas_price();
 		let max_fee_per_gas = match (max_fee_per_gas, is_transactional) {
 			(Some(max_fee_per_gas), _) => {
@@ -125,7 +129,7 @@ impl<T: Config> Runner<T> {
 
 		// Post execution.
 		let used_gas = U256::from(executor.used_gas());
-		log::debug!(
+		log::warn!(
 			target: "evm",
 			"used_gas {:?}, +++++++++++++++++++++++++++++++++++++++++++++++++++++ ",
 			used_gas,
