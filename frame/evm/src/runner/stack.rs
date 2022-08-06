@@ -125,6 +125,11 @@ impl<T: Config> Runner<T> {
 
 		// Post execution.
 		let used_gas = U256::from(executor.used_gas());
+		log::debug!(
+			target: "evm",
+			"used_gas {:?}, +++++++++++++++++++++++++++++++++++++++++++++++++++++ ",
+			used_gas,
+		);
 		let (actual_fee, actual_priority_fee) =
 			if let Some(max_priority_fee) = max_priority_fee_per_gas {
 				let actual_priority_fee = max_fee_per_gas
