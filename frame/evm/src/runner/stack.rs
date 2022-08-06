@@ -131,8 +131,10 @@ impl<T: Config> Runner<T> {
 		let used_gas = U256::from(executor.used_gas());
 		log::warn!(
 			target: "evm",
-			"used_gas {:?}, +++++++++++++++++++++++++++++++++++++++++++++++++++++ ",
+			"used_gas {:?}, max_fee_per_gas : {:?}, max_priority_fee: {:?}, +++++++++++++++++++++++++++++++++++++++++++++++++++++ ",
 			used_gas,
+			max_fee_per_gas,
+			max_priority_fee,
 		);
 		let (actual_fee, actual_priority_fee) =
 			if let Some(max_priority_fee) = max_priority_fee_per_gas {
@@ -149,7 +151,7 @@ impl<T: Config> Runner<T> {
 			} else {
 				(executor.fee(base_fee), None)
 			};
-		log::debug!(
+		log::warn!(
 			target: "evm",
 			"Execution {:?} [source: {:?}, value: {}, gas_limit: {}, actual_fee: {}, is_transactional: {}]",
 			reason,
